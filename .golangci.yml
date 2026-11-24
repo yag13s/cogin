@@ -1,0 +1,40 @@
+# golangci-lint v2.
+# Aim: catch semantic bugs that tools find deterministically, before review.
+# - default: standard = errcheck / govet / ineffassign / staticcheck / unused
+# - Extra linters are limited to high-signal ones so findings are not buried.
+version: "2"
+
+linters:
+  default: standard
+  enable:
+    - bodyclose    # HTTP response bodies left open
+    - errorlint    # misuse of %w / errors.Is/As, type assertions on errors
+    - unconvert    # needless conversions
+    - misspell     # typos in comments and strings
+    - nilnesserr   # nil err mistaken for non-nil
+  settings:
+    errcheck:
+      # Errors that are dropped on purpose must say so; the point is to
+      # catch silently swallowed ones.
+      check-type-assertions: true
+      check-blank: false
+    staticcheck:
+      checks:
+        - all
+        - -ST1000 # package comments everywhere is noise for app code
+  exclusions:
+    generated: lax
+    rules:
+      - path: _test\.go
+        linters:
+          - errcheck
+          - bodyclose
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/yag13s/cogin

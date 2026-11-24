@@ -1,0 +1,13 @@
+{
+  "issuer": "http://localhost:8090",
+  "clients": [
+    {
+      "id": "myapp",
+      "name": "My App",
+      "redirectUris": ["http://localhost:3000/auth/card/callback"],
+      "secretHash": "<secretHash printed by: go run ./cmd/cogin new-client myapp>",
+      "adminKeyHash": "<adminKeyHash printed by: go run ./cmd/cogin new-client myapp>",
+      "initiateLoginUri": "http://localhost:3000/auth/card/start"
+    }
+  ]
+}

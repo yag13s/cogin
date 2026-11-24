@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>カードでログイン</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<main class="panel">
+  <h1>{{.ClientName}} にログイン</h1>
+
+  <section id="step-card">
+    <p class="lead">ログインカードのQRコードを読み取ってください。</p>
+    <div id="card-ready" hidden>
+      <p class="ok">✓ カードを読み取りました</p>
+      <button type="button" class="link" id="card-reset">別のカードを使う</button>
+    </div>
+    <div id="card-scan">
+      <button type="button" id="scan-start" class="primary">カメラで読み取る</button>
+      <div id="scanner" hidden>
+        <video id="video" playsinline muted></video>
+        <canvas id="canvas" hidden></canvas>
+        <button type="button" id="scan-stop" class="link">カメラを止める</button>
+      </div>
+      <details>
+        <summary>カメラが使えないとき</summary>
+        <label for="manual">カードに印刷されたコード（cgc_…）またはURL</label>
+        <textarea id="manual" rows="2" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+        <button type="button" id="manual-use">このコードを使う</button>
+      </details>
+    </div>
+  </section>
+
+  <form id="step-pin" hidden>
+    <div id="pin-login">
+      <label for="pin">PIN</label>
+      <input id="pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off">
+    </div>
+    <div id="pin-setup" hidden>
+      <p class="lead">はじめて使うカードです。4〜8桁のPINを決めてください。<br>次回からこのPINでログインします。<br>誕生年や 1234・2580 のような推測されやすい番号は使えません。</p>
+      <label for="new-pin">新しいPIN</label>
+      <input id="new-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off">
+      <label for="new-pin2">もう一度</label>
+      <input id="new-pin2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off">
+    </div>
+    <button type="submit" class="primary" id="submit">ログイン</button>
+  </form>
+
+  <p id="message" class="message" role="alert" hidden></p>
+
+  <p class="note">共有の端末で使い終わったら、ログインしたサービスで必ずログアウトしてください。</p>
+</main>
+<script src="/static/vendor/jsQR.js"></script>
+<script src="/static/login.js"></script>
+</body>
+</html>
